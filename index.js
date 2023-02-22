@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const activityForm = require("./router/activityForm");
+const facilities = require("./router/facilities");
 
 dotenv.config();
 const app = express();
@@ -13,10 +15,9 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use("/activityForm", activityForm);
+app.use("/facilities", facilities);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Listening on port ${port}`);
 });

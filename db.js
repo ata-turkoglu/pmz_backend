@@ -1,11 +1,12 @@
-const { Client } = require("pg");
-
-const client = new Client(process.env.POSTGRESQL_DATABASE);
-
-client.connect((err) => {
-  if (err) {
-    return console.error("could not connect to postgres", err);
-  }
+require("dotenv").config();
+var pg = require("knex")({
+  client: "pg",
+  connection: {
+    host: process.env.POSTGRESQL_HOST,
+    port: Number(process.env.POSTGRESQL_PORT),
+    database: process.env.POSTGRESQL_USER,
+    user: process.env.POSTGRESQL_USER,
+    password: process.env.POSTGRESQL_PASSWORD,
+  },
 });
-
-module.exports = client;
+module.exports = pg;
