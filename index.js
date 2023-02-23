@@ -15,7 +15,7 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use("/activityForm", activityForm);
+app.use("/activity-forms", activityForm);
 app.use("/facilities", facilities);
 
 app.listen(port, () => {

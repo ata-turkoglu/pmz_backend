@@ -1,12 +1,25 @@
 const router = require("express").Router();
 const activityFormController = require("../controllers/activityForms");
 
-router.get("/getFacilityActivityForms/:facility", (req, res, next) => {
+router.get("/getFacilityForms/:facility", (req, res, next) => {
   let facility = req.params.facility;
   return activityFormController
     .getFacilityActivityForms(facility)
     .then((result) => {
-      res.send(200, result);
+      res.status(200).send(result);
+      return next();
+    })
+    .catch((exception) => {
+      console.log(exception);
+      return next();
+    });
+});
+
+router.put("/add", (req, res, next) => {
+  return activityFormController
+    .addNew(req.body)
+    .then((result) => {
+      res.status(200).send(result);
       return next();
     })
     .catch((exception) => {
