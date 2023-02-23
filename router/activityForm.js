@@ -28,4 +28,17 @@ router.put("/add", (req, res, next) => {
     });
 });
 
+router.put("/update", (req, res, next) => {
+  return activityFormController
+    .update(req.body)
+    .then((result) => {
+      res.status(200).send(result);
+      return next();
+    })
+    .catch((exception) => {
+      console.log(exception);
+      return next();
+    });
+});
+
 module.exports = router;
