@@ -15,7 +15,7 @@ router.get("/getFacilityForms/:facility", (req, res, next) => {
     });
 });
 
-router.put("/add", (req, res, next) => {
+router.post("/add", (req, res, next) => {
   return activityFormController
     .addNew(req.body)
     .then((result) => {
