@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 module.exports = {
   getAll: () => {
     return db("users")
-      .select("id", "username", "role", "last_login", "signup_date")
+      .select("id", "username", "role", "status", "last_login", "signup_date")
       .then((result) => {
         return result;
       })
@@ -16,11 +16,12 @@ module.exports = {
   updateUser: (data) => {
     return db("users")
       .update({
-        id: data.id,
         username: data.username,
         role: data.role,
+        status: data.status,
       })
       .where({ id: data.id })
+      .returning("id")
       .then((result) => {
         return result;
       })

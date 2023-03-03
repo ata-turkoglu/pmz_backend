@@ -14,9 +14,9 @@ router.get("/all", (req, res, next) => {
     });
 });
 
-router.put("/update", (data) => {
+router.put("/update", (req, res, next) => {
   return usersController
-    .updateUser(data)
+    .updateUser(req.body)
     .then((result) => {
       res.status(200).send(result);
       return next();
