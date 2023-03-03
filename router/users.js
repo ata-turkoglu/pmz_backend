@@ -44,7 +44,20 @@ router.post("/login", (req, res, next) => {
   return usersController
     .login(req.body)
     .then((result) => {
-      res.status(200).json(result);
+      res.status(200).send(result);
+      return next();
+    })
+    .catch((exception) => {
+      console.log(exception);
+      return next();
+    });
+});
+
+router.put("/password-reset", (req, res, next) => {
+  return usersController
+    .passwordReset(req.body)
+    .then((result) => {
+      res.status(200).send(result);
       return next();
     })
     .catch((exception) => {
