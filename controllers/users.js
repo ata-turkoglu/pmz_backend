@@ -14,7 +14,13 @@ module.exports = {
 
   signin: (data) => {
     if (data.password === data.confirmPassword) {
-      return usersServices.signin(data);
+      return usersServices.signin(data).then((result) => {
+        if (result.error?.detail) {
+          return { error: result.error.detail };
+        } else {
+          return result;
+        }
+      });
     } else {
       return Promise.resolve({ error: "passwords doesnt match each other" });
     }
