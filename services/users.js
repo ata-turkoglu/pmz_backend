@@ -140,4 +140,11 @@ module.exports = {
         return { error };
       });
   },
+
+  updateLastLoginDate: (id) => {
+    return db("users")
+      .update({ last_login: new Date() })
+      .where({ id })
+      .returning("id");
+  },
 };

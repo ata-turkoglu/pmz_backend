@@ -36,7 +36,17 @@ module.exports = {
           let token = jwt.sign(data, process.env.JWT_SECRET_KEY, {
             expiresIn: 3600,
           });
-          return { token };
+          if (token) {
+            return usersServices.updateLastLoginDate(data.id).then((result) => {
+              if (result.error) {
+                return {
+                  error: result.error,
+                };
+              } else {
+                return { token };
+              }
+            });
+          }
         }
       })
       .catch((err) => {
