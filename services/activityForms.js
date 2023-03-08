@@ -10,12 +10,29 @@ module.exports = {
         "form_date as date",
         "dryer_kiln as dryerKilnTimer",
         "reducer_kiln as reducerKilnTimer",
+        "dryer_diff as dryerDiff",
+        "reducer_diff as reducerDiff",
+        "dryer_total as dryerTotal",
+        "reducer_total as reducerTotal",
         "cng as cngTimer",
+        "cng_diff as cngDiff",
         "products as productsText",
         "malfunctions as malfunctionsText",
         "other_activities as otherActivities"
       )
       .where("facility", facility)
+      .then((result) => {
+        return result;
+      })
+      .catch((error) => {
+        console.log(error);
+        return { error };
+      });
+  },
+  getForm: (date, shift) => {
+    return db("activity_forms")
+      .select()
+      .where({ form_date: date, shift })
       .then((result) => {
         return result;
       })
