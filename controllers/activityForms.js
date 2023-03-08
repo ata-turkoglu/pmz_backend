@@ -34,6 +34,9 @@ module.exports = {
         obj.dryer_total = foundDate[0].dryer_total + obj.dryer_diff;
         obj.reducer_total = foundDate[0].reducer_total + obj.reducer_diff;
 
+        obj.cng_diff = data.cngTimer - foundDate[0].cng;
+        obj.cng_total = foundDate[0].cng_total + obj.cng_diff;
+
         return activityFormsServices.addNew(obj);
       } else {
         return { error: "Bir önceki vardiya bilgisi girilmemiş" };
