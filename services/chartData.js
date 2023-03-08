@@ -19,4 +19,19 @@ module.exports = {
         return { error };
       });
   },
+  getLastDataForAvarage: (facility) => {
+    return db("activity_forms")
+      .select("form_date", "cng_total", "dryer_total", "reducer_total")
+      .where({ facility })
+      .orderBy("form_date", "desc")
+      .orderBy("shift", "desc")
+      .limit(1)
+      .then((result) => {
+        return result;
+      })
+      .catch((error) => {
+        console.log(error);
+        return { error };
+      });
+  },
 };
