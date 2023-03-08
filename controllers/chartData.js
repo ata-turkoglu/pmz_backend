@@ -16,4 +16,16 @@ module.exports = {
         });
       });
   },
+  getLastDataForAvarage: (facility) => {
+    return chartDataServices.getLastDataForAvarage(facility).then((result) => {
+      return result.map((item) => {
+        return {
+          date: item.date,
+          cngTotal: item.cng_total,
+          dryerTotal: item.dryer_total,
+          reducerTotal: item.reducer_total,
+        };
+      });
+    });
+  },
 };
