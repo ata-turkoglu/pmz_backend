@@ -9,13 +9,13 @@ const chartData = require("./router/chartData");
 dotenv.config();
 const app = express();
 const port = 3000;
-app.use(
-  cors({
-    origin: "*",
-  })
-);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(
+  cors({
+    origin: "https://pmz-frontend.web.app",
+  })
+);
 
 app.use("/activity-forms", activityForm);
 app.use("/facilities", facilities);
