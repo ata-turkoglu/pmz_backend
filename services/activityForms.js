@@ -16,6 +16,7 @@ module.exports = {
         "reducer_total as reducerTotal",
         "cng as cngTimer",
         "cng_diff as cngDiff",
+        "cng_total as cngTotal",
         "products as productsText",
         "malfunctions as malfunctionsText",
         "other_activities as otherActivities"
@@ -55,17 +56,7 @@ module.exports = {
   },
   update: (data) => {
     return db("activity_forms")
-      .update({
-        form_date: data.form_date,
-        facility: data.facility,
-        shift: data.shift,
-        dryer_kiln: data.dryer_kiln,
-        reducer_kiln: data.reducer_kiln,
-        cng: data.cng,
-        products: data.products,
-        malfunctions: data.malfunctions,
-        other_activities: data.other_activities,
-      })
+      .update(data)
       .where({ id: data.id })
       .returning("id")
       .then((result) => {
