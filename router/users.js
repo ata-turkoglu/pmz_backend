@@ -27,9 +27,9 @@ router.put("/update", (req, res, next) => {
     });
 });
 
-router.post("/signin", (req, res, next) => {
+router.post("/signup", (req, res, next) => {
   return usersController
-    .signin(req.body)
+    .signup(req.body)
     .then((result) => {
       res.status(200).send(result);
       return next();

@@ -35,7 +35,7 @@ module.exports = {
       });
   },
 
-  signin: async (data) => {
+  signup: async (data) => {
     const { username, password } = data;
     if (!username || !password) {
       return Promise.resolve({ error: "incorrect submission" });

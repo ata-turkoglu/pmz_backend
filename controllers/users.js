@@ -12,9 +12,9 @@ module.exports = {
     return usersServices.updateUser(data);
   },
 
-  signin: (data) => {
+  signup: (data) => {
     if (data.password === data.confirmPassword) {
-      return usersServices.signin(data).then((result) => {
+      return usersServices.signup(data).then((result) => {
         if (result.error?.detail) {
           return { error: result.error.detail };
         } else {
