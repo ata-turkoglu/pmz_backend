@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://pmz-frontend.web.app",
+    origin: "https://pmzsart.web.app",
     credentials: true,
     allowHeaders: ["Content-Type"],
   })
