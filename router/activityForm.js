@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const activityFormController = require("../controllers/activityForms");
+const checkExistingForm = require("../middlewares/checkExistingForm");
 
 router.get("/getFacilityForms/:facility", (req, res, next) => {
   let facility = req.params.facility;
@@ -15,7 +16,7 @@ router.get("/getFacilityForms/:facility", (req, res, next) => {
     });
 });
 
-router.post("/add", (req, res, next) => {
+router.post("/add", checkExistingForm, (req, res, next) => {
   return activityFormController
     .addNew(req.body)
     .then((result) => {

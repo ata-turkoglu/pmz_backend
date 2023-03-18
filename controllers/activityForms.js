@@ -8,44 +8,37 @@ module.exports = {
     return activityFormsServices.getForm(date, shift);
   },
   addNew: (data) => {
-    return module.exports.getForm(data.date, data.shift).then((res) => {
-      if (res.length <= 0) {
-        let date, shift;
-        data.shift == 1
-          ? (date = moment(data.date).subtract(1, "days").format("YYYY-MM-DD"))
-          : (date = data.date);
-        data.shift == 1 ? (shift = 3) : (shift = data.shift - 1);
-        return module.exports.getForm(date, shift).then((foundDate) => {
-          if (foundDate.length > 0) {
-            let obj = {
-              form_date: data.date,
-              facility: data.facility,
-              shift: data.shift,
-              dryer_kiln: data.dryerKilnTimer,
-              reducer_kiln: data.reducerKilnTimer,
-              cng: data.cngTimer,
-              products: data.productsText,
-              malfunctions: data.malfunctionsText,
-              other_activities: data.otherActivities,
-            };
+    let date, shift;
+    data.shift == 1
+      ? (date = moment(data.date).subtract(1, "days").format("YYYY-MM-DD"))
+      : (date = data.date);
+    data.shift == 1 ? (shift = 3) : (shift = data.shift - 1);
+    return module.exports.getForm(date, shift).then((foundDate) => {
+      if (foundDate.length > 0) {
+        let obj = {
+          form_date: data.date,
+          facility: data.facility,
+          shift: data.shift,
+          dryer_kiln: data.dryerKilnTimer,
+          reducer_kiln: data.reducerKilnTimer,
+          cng: data.cngTimer,
+          products: data.productsText,
+          malfunctions: data.malfunctionsText,
+          other_activities: data.otherActivities,
+        };
 
-            obj.dryer_diff = data.dryerKilnTimer - foundDate[0].dryer_kiln;
-            obj.reducer_diff =
-              data.reducerKilnTimer - foundDate[0].reducer_kiln;
+        obj.dryer_diff = data.dryerKilnTimer - foundDate[0].dryer_kiln;
+        obj.reducer_diff = data.reducerKilnTimer - foundDate[0].reducer_kiln;
 
-            obj.dryer_total = foundDate[0].dryer_total + obj.dryer_diff;
-            obj.reducer_total = foundDate[0].reducer_total + obj.reducer_diff;
+        obj.dryer_total = foundDate[0].dryer_total + obj.dryer_diff;
+        obj.reducer_total = foundDate[0].reducer_total + obj.reducer_diff;
 
-            obj.cng_diff = data.cngTimer - foundDate[0].cng;
-            obj.cng_total = foundDate[0].cng_total + obj.cng_diff;
+        obj.cng_diff = data.cngTimer - foundDate[0].cng;
+        obj.cng_total = foundDate[0].cng_total + obj.cng_diff;
 
-            return activityFormsServices.addNew(obj);
-          } else {
-            return { error: "Bir önceki vardiya bilgisi girilmemiş" };
-          }
-        });
+        return activityFormsServices.addNew(obj);
       } else {
-        return { error: "Bu tarih ve vardiya girilmiş" };
+        return { error: "Bir önceki vardiya bilgisi girilmemiş" };
       }
     });
   },
