@@ -1,8 +1,8 @@
 const activityFormController = require("../controllers/activityForms");
 
 module.exports = (req, res, next) => {
-  const { date, shift } = req.body;
-  activityFormController.getForm(date, shift).then((result) => {
+  const { facility, date, shift } = req.body;
+  activityFormController.getForm(facility, date, shift).then((result) => {
     if (result.length <= 0) {
       next();
     } else {

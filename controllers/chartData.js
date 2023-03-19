@@ -25,6 +25,7 @@ module.exports = {
           shift: item.shift,
           dryerKilnTimer: item.dryer_kiln,
           reducerKilnTimer: item.reducer_kiln,
+          cngTimer: item.cng,
           cngTotal: item.cng_total,
           dryerTotal: item.dryer_total,
           reducerTotal: item.reducer_total,

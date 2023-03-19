@@ -30,10 +30,10 @@ module.exports = {
         return { error };
       });
   },
-  getForm: (date, shift) => {
+  getForm: (facility, date, shift) => {
     return db("activity_forms")
       .select()
-      .where({ form_date: date, shift })
+      .where({ facility, form_date: date, shift })
       .then((result) => {
         return result;
       })
