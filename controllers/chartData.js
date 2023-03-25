@@ -33,4 +33,21 @@ module.exports = {
       });
     });
   },
+  getPreviousDataForEdit: (facility) => {
+    return chartDataServices.getPreviousDataForEdit(facility).then((result) => {
+      return result.slice(1).map((item) => {
+        return {
+          date: moment(item.form_date).format("YYYY-MM-DD"),
+          facility: item.facility,
+          shift: item.shift,
+          dryerKilnTimer: item.dryer_kiln,
+          reducerKilnTimer: item.reducer_kiln,
+          cngTimer: item.cng,
+          cngTotal: item.cng_total,
+          dryerTotal: item.dryer_total,
+          reducerTotal: item.reducer_total,
+        };
+      });
+    });
+  },
 };
