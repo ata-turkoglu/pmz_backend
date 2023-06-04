@@ -5,25 +5,29 @@ const activityForm = require("./router/activityForm");
 const facilities = require("./router/facilities");
 const users = require("./router/users");
 const chartData = require("./router/chartData");
+const rawMaterials = require("./router/rawMaterials");
 
 dotenv.config();
 const app = express();
 const port = 3000;
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
-  cors({
-    origin: "https://pmzsart.web.app",
-    credentials: true,
-    allowHeaders: ["Content-Type"],
-  })
+    cors({
+        //origin: "http://localhost:8080",
+        origin: '*',
+        //credentials: true,
+        //allowHeaders: ["Content-Type"],
+    })
 );
 
 app.use("/activity-forms", activityForm);
 app.use("/facilities", facilities);
 app.use("/users", users);
 app.use("/chart-data", chartData);
+app.use("/rawMaterials", rawMaterials);
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+    console.log(`Listening on port ${port}`);
 });
