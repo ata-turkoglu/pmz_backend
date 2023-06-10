@@ -16,9 +16,10 @@ app.use(express.json());
 app.use(
     cors({
         //origin: "http://localhost:8080",
-        origin: '*',
-        //credentials: true,
-        //allowHeaders: ["Content-Type"],
+        //origin: '*',
+        origin: "https://pmzsart.web.app",
+        credentials: true,
+        allowHeaders: ["Content-Type"],
     })
 );
 
