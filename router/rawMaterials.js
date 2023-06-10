@@ -27,6 +27,19 @@ router.post("/addCoalEntry", (req, res, next) => {
         });
 });
 
+router.patch("/updateCoalEntry", (req, res, next) => {
+    return coalControllers
+        .updateCoalEntry(req.body)
+        .then((result) => {
+            res.sendStatus(200).send(result);
+            return next();
+        })
+        .catch((exception) => {
+            console.log(exception);
+            return next();
+        });
+});
+
 router.delete("/deleteCoalEntry", (req, res, next) => {
     return coalControllers
         .deleteCoalEntry(req.body.id)

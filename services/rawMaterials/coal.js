@@ -31,6 +31,24 @@ const coalServices = {
                 return { error };
             });
     },
+    updateCoalEntry: (data) => {
+        return db("coal")
+            .update({
+                company_name: data.company_name,
+                acceptance_date: data.acceptance_date,
+                amount: data.amount,
+                unit_price: data.unit_price,
+                total_price: data.total_price,
+            })
+            .where({ id: data.id })
+            .then((result) => {
+                return result;
+            })
+            .catch((error) => {
+                console.log(error);
+                return { error };
+            });
+    },
     deleteCoalEntry: (id) => {
         return db("coal")
             .del()

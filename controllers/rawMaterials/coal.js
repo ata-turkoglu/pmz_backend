@@ -14,6 +14,17 @@ const coalControllers = {
         };
         return coalServices.addCoalEntry(obj);
     },
+    updateCoalEntry: (data) => {
+        let obj = {
+            id: data.id,
+            company_name: data.companyName,
+            acceptance_date: data.dateTime,
+            amount: data.amount,
+            unit_price: data.unitPrice,
+            total_price: data.totalPrice,
+        };
+        return coalServices.updateCoalEntry(obj);
+    },
     deleteCoalEntry: (id) => {
         return coalServices.deleteCoalEntry(id);
     },
