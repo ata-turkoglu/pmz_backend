@@ -71,10 +71,54 @@ module.exports = {
             });
     },
 
+    get180Mesh: () => {
+        return db("analysis180mesh")
+            .select()
+            .then((result) => {
+                return result;
+            })
+            .catch((error) => {
+                console.log(error);
+                return { error };
+            });
+    },
+
     save180Mesh: (data) => {
         return db("analysis180mesh")
             .insert(data)
             .returning("id")
+            .then((result) => {
+                return result;
+            })
+            .catch((error) => {
+                console.log(error);
+                return { error };
+            });
+    },
+
+    update180Mesh: (data) => {
+        return db("analysis180mesh")
+            .update({
+                bigbag_no: data.bigbag_no,
+                p212: data.p212,
+                p160: data.p160,
+                m90: data.m90,
+                notes: data.notes,
+            })
+            .where({ id: data.id })
+            .then((result) => {
+                return result;
+            })
+            .catch((error) => {
+                console.log(error);
+                return { error };
+            });
+    },
+
+    delete180Mesh: (id) => {
+        return db("analysis180mesh")
+            .del()
+            .where({ id })
             .then((result) => {
                 return result;
             })

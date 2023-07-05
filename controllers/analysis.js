@@ -48,15 +48,42 @@ module.exports = {
         return analysisServices.delete80Mesh(id);
     },
 
+    get180Mesh: () => {
+        return analysisServices.get180Mesh().then((res) => {
+            res.forEach((item) => {
+                item.bigbagNo = item.bigbag_no;
+                delete item.bigbag_no;
+            });
+            return res;
+        });
+    },
+
     save180Mesh: (data) => {
         let obj = {
             bigbag_no: parseInt(data.bigbagNo),
-            p400: parseInt(data.p212),
-            m212: parseInt(data.p160),
-            m160: parseInt(data.m90),
+            p212: data.p212,
+            p160: data.p160,
+            m90: data.m90,
             notes: data.notes,
         };
 
         return analysisServices.save180Mesh(obj);
+    },
+
+    update180Mesh: (data) => {
+        let obj = {
+            id: data.id,
+            bigbag_no: parseInt(data.bigbagNo),
+            p212: data.p212,
+            p160: data.p160,
+            m90: data.m90,
+            notes: data.notes,
+        };
+
+        return analysisServices.update180Mesh(obj);
+    },
+
+    delete180Mesh: (id) => {
+        return analysisServices.delete180Mesh(id);
     },
 };
