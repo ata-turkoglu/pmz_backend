@@ -1,11 +1,50 @@
 const router = require("express").Router();
 const analysisControllers = require("../controllers/analysis");
 
+router.get("/get3060Mesh", (req, res, next) => {
+    return analysisControllers
+        .get3060Mesh()
+        .then((result) => {
+            res.status(200).send(result);
+            return next();
+        })
+        .catch((exception) => {
+            console.log(exception);
+            return next();
+        });
+});
+
 router.post("/save3060Mesh", (req, res, next) => {
     return analysisControllers
         .save3060Mesh(req.body)
         .then((result) => {
             res.status(200).send(result);
+            return next();
+        })
+        .catch((exception) => {
+            console.log(exception);
+            return next();
+        });
+});
+
+router.put("/update3060Mesh", (req, res, next) => {
+    return analysisControllers
+        .update3060Mesh(req.body)
+        .then((result) => {
+            res.sendStatus(200).send(result);
+            return next();
+        })
+        .catch((exception) => {
+            console.log(exception);
+            return next();
+        });
+});
+
+router.delete("/delete3060Mesh", (req, res, next) => {
+    return analysisControllers
+        .delete3060Mesh(req.body.id)
+        .then((result) => {
+            res.sendStatus(200).send(result);
             return next();
         })
         .catch((exception) => {

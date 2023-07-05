@@ -1,10 +1,54 @@
 const db = require("../db");
 
 module.exports = {
+    get3060Mesh: () => {
+        return db("analysis3060mesh")
+            .select()
+            .then((result) => {
+                return result;
+            })
+            .catch((error) => {
+                console.log(error);
+                return { error };
+            });
+    },
+
     save3060Mesh: (data) => {
         return db("analysis3060mesh")
             .insert(data)
             .returning("id")
+            .then((result) => {
+                return result;
+            })
+            .catch((error) => {
+                console.log(error);
+                return { error };
+            });
+    },
+
+    update3060Mesh: (data) => {
+        return db("analysis3060mesh")
+            .update({
+                bigbag_no: data.bigbag_no,
+                p600: data.p600,
+                p400: data.p400,
+                m212: data.m212,
+                notes: data.notes,
+            })
+            .where({ id: data.id })
+            .then((result) => {
+                return result;
+            })
+            .catch((error) => {
+                console.log(error);
+                return { error };
+            });
+    },
+
+    delete3060Mesh: (id) => {
+        return db("analysis3060mesh")
+            .del()
+            .where({ id })
             .then((result) => {
                 return result;
             })
