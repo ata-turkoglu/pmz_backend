@@ -1,12 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+
 const activityForm = require("./router/activityForm");
-const facilities = require("./router/facilities");
-const users = require("./router/users");
-const chartData = require("./router/chartData");
-const rawMaterials = require("./router/rawMaterials");
 const analysis = require("./router/analysis");
+const chartData = require("./router/chartData");
+const facilities = require("./router/facilities");
+const process = require("./router/process");
+const rawMaterials = require("./router/rawMaterials");
+const users = require("./router/users");
 
 dotenv.config();
 const app = express();
@@ -25,11 +27,12 @@ app.use(
 );
 
 app.use("/activity-forms", activityForm);
-app.use("/facilities", facilities);
-app.use("/users", users);
-app.use("/chart-data", chartData);
-app.use("/rawMaterials", rawMaterials);
 app.use("/analysis", analysis);
+app.use("/chart-data", chartData);
+app.use("/facilities", facilities);
+app.use("/process", process);
+app.use("/rawMaterials", rawMaterials);
+app.use("/users", users);
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
