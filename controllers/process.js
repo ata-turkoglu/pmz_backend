@@ -13,6 +13,7 @@ module.exports = {
                     heavyMineralHz: item.mineral_hz,
                     calculatedHeavyMinerals: item.mineral_amount,
                     ratio: item.ratio,
+                    flueFan: item.flue_fan,
                 };
                 list.push(obj);
             });
@@ -28,6 +29,7 @@ module.exports = {
             mineral_hz: data.heavyMineralHz,
             mineral_amount: data.calculatedHeavyMinerals,
             ratio: data.ratio,
+            flue_fan: data.flueFan,
         };
         return processService.addNewFeedingData(obj);
     },
