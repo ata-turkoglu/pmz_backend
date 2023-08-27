@@ -14,6 +14,9 @@ module.exports = {
                     calculatedHeavyMinerals: item.mineral_amount,
                     ratio: item.ratio,
                     flueFan: item.flue_fan,
+                    kilnSpeed: item.kiln_speed,
+                    temp: item.temp,
+                    score: item.score,
                 };
                 list.push(obj);
             });
@@ -30,6 +33,9 @@ module.exports = {
             mineral_amount: data.calculatedHeavyMinerals,
             ratio: data.ratio,
             flue_fan: data.flueFan,
+            kiln_speed: data.kilnSpeed,
+            temp: data.temp,
+            score: data.score,
         };
         return processService.addNewFeedingData(obj);
     },
