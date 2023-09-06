@@ -1,8 +1,6 @@
 require("dotenv").config();
 const XlsxPopulate = require("xlsx-populate");
 const moment = require("moment");
-const stock = require("../../utils/helpers/stok");
-//const stocktakingList = require("../../utils/helpers/stocktakingList");
 const stocktakingList = JSON.parse(process.env.STOCK_HEADER_LIST);
 
 const mergeHeaders = (first, second) => {
@@ -20,27 +18,36 @@ const mergeHeaders = (first, second) => {
 };
 
 const readProductRows = (data, date) => {
-    let formattedDate = moment(date).format("YYYY-MM-DD");
-    let headers = mergeHeaders(stock[4], stock[5]);
-    let rowList = data.slice(6, -9);
-    let list = [];
+    return new Promise((resolve) => {
+        let formattedDate = moment(date).format("YYYY-MM-DD");
+        let headers = mergeHeaders(data[4], data[5]);
+        let rowList = data.slice(6, -9);
+        let list = [];
 
-    rowList.forEach((item) => {
-        let obj = {};
-        obj.workday = formattedDate;
-        headers.forEach((header, index) => {
-            obj[stocktakingList[header]] = item[index] ?? null;
+        rowList.forEach((item) => {
+            let obj = {};
+            obj.workday = formattedDate;
+            headers.forEach((header, index) => {
+                let cellData;
+                if (typeof item[index] == "string") {
+                    cellData = item[index].trim();
+                    cellData = cellData == "" ? null : cellData;
+                } else {
+                    cellData = item[index];
+                }
+                obj[stocktakingList[header]] = cellData ?? null;
+            });
+            list.push(obj);
         });
-        list.push(obj);
+        resolve(list);
     });
-    return list;
 };
 
 const getExcelData = (attachment, date) => {
     const buffer = Buffer.from(attachment, "base64");
-    XlsxPopulate.fromDataAsync(buffer).then((workbook) => {
+    return XlsxPopulate.fromDataAsync(buffer).then(async (workbook) => {
         let data = workbook.sheet("Stok").usedRange().value();
-        console.log("-", readProductRows(data, date));
+        return await readProductRows(data, date);
     });
 };
 
