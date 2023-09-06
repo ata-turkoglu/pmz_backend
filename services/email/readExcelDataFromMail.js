@@ -1,7 +1,9 @@
+require("dotenv").config();
 const XlsxPopulate = require("xlsx-populate");
 const moment = require("moment");
 const stock = require("../../utils/helpers/stok");
-const stocktakingList = require("../../utils/helpers/stocktakingList");
+//const stocktakingList = require("../../utils/helpers/stocktakingList");
+const stocktakingList = JSON.parse(process.env.STOCK_HEADER_LIST);
 
 const mergeHeaders = (first, second) => {
     let list = [];
