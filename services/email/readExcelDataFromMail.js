@@ -43,9 +43,11 @@ const readProductRows = (data, date) => {
     });
 };
 
-const getExcelData = (attachment, date) => {
+const getExcelData = async (attachment, subjectDate) => {
+    let date = moment(subjectDate, "DD.MM.YYYY").format();
+
     const buffer = Buffer.from(attachment, "base64");
-    return XlsxPopulate.fromDataAsync(buffer).then(async (workbook) => {
+    return await XlsxPopulate.fromDataAsync(buffer).then(async (workbook) => {
         let data = workbook.sheet("Stok").usedRange().value();
         return await readProductRows(data, date);
     });
