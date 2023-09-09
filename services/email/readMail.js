@@ -69,6 +69,9 @@ const readMails = async (dates /* 2023-09-01T00:00:00+03:00 */) => {
                                                             .content,
                                                     subjectDate:
                                                         parsedSubjectDate,
+                                                    filename:
+                                                        parsed.attachments[0]
+                                                            .filename,
                                                 });
                                             }
                                         });
@@ -108,6 +111,7 @@ const readMails = async (dates /* 2023-09-01T00:00:00+03:00 */) => {
                 getExcelData(
                     item.content,
                     item.subjectDate,
+                    item.filename,
                     dates /* 2023-09-01T00:00:00+03:00 */
                 )
             );

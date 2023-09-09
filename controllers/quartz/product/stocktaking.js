@@ -24,10 +24,10 @@ module.exports = {
 
                 list.forEach((item) => {
                     if (item.producing) {
-                        producingData.push(item.producing);
+                        producingData.push(...item.producing);
                     }
                     if (item.packaging) {
-                        packagingData.push(item.packaging);
+                        packagingData.push(...item.packaging);
                     }
                 });
 
