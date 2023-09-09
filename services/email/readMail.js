@@ -13,7 +13,15 @@ const checkDate = (
     return !lastDate ? true : mailDate > lastDate;
 };
 
-const readMails = (date) => {
+const setInitialDate = (dates) => {
+    let list = Object.values(dates);
+    return Promise.resolve(list).then((list) => {
+        return list.sort()[0];
+    });
+};
+
+const readMails = async (dates /* 2023-09-01T00:00:00+03:00 */) => {
+    let date = await setInitialDate(dates);
     const imapConfig = {
         user: process.env.MAIL_USER,
         password: process.env.MAIL_PASSWORD,
@@ -96,7 +104,13 @@ const readMails = (date) => {
         let list = [];
 
         mailList.forEach((item) => {
-            list.push(getExcelData(item.content, item.subjectDate));
+            list.push(
+                getExcelData(
+                    item.content,
+                    item.subjectDate,
+                    dates /* 2023-09-01T00:00:00+03:00 */
+                )
+            );
         });
         return Promise.all(list);
     });
