@@ -2,6 +2,7 @@ require("dotenv").config();
 const XlsxPopulate = require("xlsx-populate");
 const moment = require("moment");
 const stocktakingList = JSON.parse(process.env.STOCK_HEADER_LIST);
+const packagingList = JSON.parse(process.env.PACKAGE_HEADER_LIST);
 
 const mergeHeaders = (first, second) => {
     let list = [];
@@ -42,15 +43,70 @@ const readProductRows = (data, date) => {
         resolve(list);
     });
 };
+const readPackagingRows = (data, date) => {
+    let dateObj = new Date(date);
+    let converted =
+        25569.0 +
+        (dateObj.getTime() - dateObj.getTimezoneOffset() * 60 * 1000) /
+            (1000 * 60 * 60 * 24);
+    return new Promise((resolve) => {
+        let formattedDate = moment(date).format("YYYY-MM-DD");
+        let headers = mergeHeaders(data[0], data[1]);
+        let rowList = data.filter((itm) => itm[0] == converted);
+        let list = [];
 
-const getExcelData = async (attachment, subjectDate) => {
-    let date = moment(subjectDate, "DD.MM.YYYY").format();
+        rowList.forEach((item) => {
+            let obj = {};
+            headers.forEach((header, index) => {
+                let cellData;
+                if (typeof item[index] == "string") {
+                    cellData = item[index].trim();
+                    cellData = cellData == "" ? null : cellData;
+                } else {
+                    cellData = item[index];
+                }
+                obj[packagingList[header]] = cellData ?? null;
+                obj.workday = formattedDate;
+            });
+            list.push(obj);
+        });
+        resolve(list);
+    });
+};
+
+const getExcelData = async (
+    attachment,
+    subjectDate,
+    dates /* 2023-09-01T00:00:00+03:00 */
+) => {
+    let date = moment(subjectDate, "DD.MM.YYYY").format(); //2023-09-02T14:00:13.000Z
 
     const buffer = Buffer.from(attachment, "base64");
-    return await XlsxPopulate.fromDataAsync(buffer).then(async (workbook) => {
-        let data = workbook.sheet("Stok").usedRange().value();
-        return await readProductRows(data, date);
-    });
+
+    let producing =
+        date > dates.lastDateOfProducing
+            ? await XlsxPopulate.fromDataAsync(buffer).then(
+                  async (workbook) => {
+                      let data = workbook.sheet("Stok").usedRange().value();
+                      return await readProductRows(data, date);
+                  }
+              )
+            : null;
+
+    let packaging =
+        date > dates.lastDateOfPackaging
+            ? await XlsxPopulate.fromDataAsync(buffer).then(
+                  async (workbook) => {
+                      let data = workbook
+                          .sheet("Paketleme")
+                          .usedRange()
+                          .value();
+                      return await readPackagingRows(data, date);
+                  }
+              )
+            : null;
+
+    return { producing, packaging };
 };
 
 module.exports = { getExcelData };
