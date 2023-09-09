@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const scheduler = require("node-schedule");
 
 const activityForm = require("./router/activityForm");
 const analysis = require("./router/analysis");
@@ -9,6 +10,8 @@ const facilities = require("./router/facilities");
 const process = require("./router/process");
 const rawMaterials = require("./router/rawMaterials");
 const users = require("./router/users");
+
+const stocktakingController = require("./controllers/quartz/product/stocktaking");
 
 dotenv.config();
 const app = express();
@@ -32,6 +35,10 @@ app.use("/facilities", facilities);
 app.use("/process", process);
 app.use("/rawMaterials", rawMaterials);
 app.use("/users", users);
+
+scheduler.scheduleJob("0 0 12 * * *", function () {
+    stocktakingController.addStocktakingData();
+});
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);

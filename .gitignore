@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Others
+packagingList.js
+stocktakingList.js
+stok.js
+test.js
