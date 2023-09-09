@@ -17,6 +17,11 @@ const mergeHeaders = (first, second) => {
     });
     return list;
 };
+const getFileExtension = (filename) => {
+    let index = filename.lastIndexOf(".");
+    let ext = filename.slice(index);
+    return ext;
+};
 
 const readProductRows = (data, date) => {
     return new Promise((resolve) => {
@@ -77,34 +82,40 @@ const readPackagingRows = (data, date) => {
 const getExcelData = async (
     attachment,
     subjectDate,
+    filename,
     dates /* 2023-09-01T00:00:00+03:00 */
 ) => {
+    let producing = null;
+    let packaging = null;
+
     let date = moment(subjectDate, "DD.MM.YYYY").format(); //2023-09-02T14:00:13.000Z
 
     const buffer = Buffer.from(attachment, "base64");
 
-    let producing =
-        date > dates.lastDateOfProducing
-            ? await XlsxPopulate.fromDataAsync(buffer).then(
-                  async (workbook) => {
-                      let data = workbook.sheet("Stok").usedRange().value();
-                      return await readProductRows(data, date);
-                  }
-              )
-            : null;
+    if (getFileExtension(filename) == ".xlsx") {
+        producing =
+            date > dates.lastDateOfProducing
+                ? await XlsxPopulate.fromDataAsync(buffer).then(
+                      async (workbook) => {
+                          let data = workbook.sheet("Stok").usedRange().value();
+                          return await readProductRows(data, date);
+                      }
+                  )
+                : null;
 
-    let packaging =
-        date > dates.lastDateOfPackaging
-            ? await XlsxPopulate.fromDataAsync(buffer).then(
-                  async (workbook) => {
-                      let data = workbook
-                          .sheet("Paketleme")
-                          .usedRange()
-                          .value();
-                      return await readPackagingRows(data, date);
-                  }
-              )
-            : null;
+        packaging =
+            date > dates.lastDateOfPackaging
+                ? await XlsxPopulate.fromDataAsync(buffer).then(
+                      async (workbook) => {
+                          let data = workbook
+                              .sheet("Paketleme")
+                              .usedRange()
+                              .value();
+                          return await readPackagingRows(data, date);
+                      }
+                  )
+                : null;
+    }
 
     return { producing, packaging };
 };
