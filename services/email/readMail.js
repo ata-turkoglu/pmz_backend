@@ -21,6 +21,7 @@ const setInitialDate = (dates) => {
 };
 
 const readMails = async (dates /* 2023-09-01T00:00:00+03:00 */) => {
+    console.log("readMails");
     let date = await setInitialDate(dates);
     const imapConfig = {
         user: process.env.MAIL_USER,

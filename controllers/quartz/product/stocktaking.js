@@ -4,6 +4,7 @@ const moment = require("moment");
 moment.locale("tr");
 module.exports = {
     addStocktakingData: () => {
+        console.log("addStocktakingData");
         new Promise(async (resolve) => {
             let lastDateOfProducing =
                 await quartzProductStocktakingServices.getLastDateOfProducing();

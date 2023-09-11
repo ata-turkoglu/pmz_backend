@@ -15,6 +15,7 @@ const setLastDate = (result) => {
 
 module.exports = {
     addStocktakingData: (data) => {
+        console.log("addStocktakingData");
         return db("quartz_product_stocktaking")
             .insert(data)
             .returning("id")
