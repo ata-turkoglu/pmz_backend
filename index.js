@@ -36,7 +36,7 @@ app.use("/process", process);
 app.use("/rawMaterials", rawMaterials);
 app.use("/users", users);
 
-scheduler.scheduleJob("0 0 12 * * *", function () {
+scheduler.scheduleJob("00 00 14 * * *", function () {
     stocktakingController.addStocktakingData();
 });
 
