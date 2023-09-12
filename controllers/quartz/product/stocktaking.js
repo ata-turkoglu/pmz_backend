@@ -1,7 +1,5 @@
 const quartzProductStocktakingServices = require("../../../services/quartz/product/stocktaking");
 const { readMails } = require("../../../services/email/readMail");
-const moment = require("moment");
-moment.locale("tr");
 module.exports = {
     addStocktakingData: () => {
         console.log("addStocktakingData");

@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const scheduler = require("node-schedule");
+const moment = require("moment");
 
 const activityForm = require("./router/activityForm");
 const analysis = require("./router/analysis");
@@ -13,15 +14,26 @@ const users = require("./router/users");
 
 const stocktakingController = require("./controllers/quartz/product/stocktaking");
 
+moment.locale("tr");
+
 dotenv.config();
 const app = express();
 const port = 3000;
+
+// Scheduler
+const rule = new scheduler.RecurrenceRule();
+rule.hour = 13;
+rule.minute = 0;
+
+const job = scheduler.scheduleJob(rule, function () {
+    stocktakingController.addStocktakingData();
+});
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
     cors({
-        //origin: "http://localhost:8080",
+        //origin: "*",
         origin: "https://pmzsart.web.app",
         credentials: true,
         allowHeaders: ["Content-Type"],
@@ -35,10 +47,6 @@ app.use("/facilities", facilities);
 app.use("/process", process);
 app.use("/rawMaterials", rawMaterials);
 app.use("/users", users);
-
-scheduler.scheduleJob("00 30 14 * * *", function () {
-    stocktakingController.addStocktakingData();
-});
 
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
