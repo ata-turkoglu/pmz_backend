@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const scheduler = require("node-schedule");
+//const scheduler = require("node-schedule");
+const scheduler = require("node-cron");
 const moment = require("moment");
 const logger = require("./logger");
 const fs = require("fs");
@@ -24,14 +25,25 @@ const app = express();
 const port = 3000;
 
 // Scheduler
-const rule = new scheduler.RecurrenceRule();
+/* const rule = new scheduler.RecurrenceRule();
 rule.hour = 13;
 rule.minute = 10;
 
 const job = scheduler.scheduleJob(rule, function () {
     logger.info("schedular triggered");
     stocktakingController.addStocktakingData();
-});
+}); */
+
+let mailTask = scheduler.schedule(
+    "0 40 13 * * *",
+    () => {
+        logger.info("schedular triggered");
+        stocktakingController.addStocktakingData();
+    },
+    {
+        scheduled: false,
+    }
+);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -57,6 +69,7 @@ app.listen(port, () => {
     if (fs.existsSync("./logs.log")) {
         logger.info("Log file is existing");
         logger.info("server started listening");
+        mailTask.start();
     } else {
         fs.writeFile("./logs.log", "", function (err) {
             if (err) {
@@ -65,6 +78,7 @@ app.listen(port, () => {
             logger.info("Log file was saved");
             console.log("The file was saved!");
             logger.info("server started listening");
+            mailTask.start();
         });
     }
     console.log(`Server is listening on port ${port}`);
