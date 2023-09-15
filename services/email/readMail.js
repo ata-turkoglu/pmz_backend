@@ -4,6 +4,7 @@ const { simpleParser } = require("mailparser");
 const { getExcelData } = require("./readExcelDataFromMail");
 const moment = require("moment");
 const Promise = require("bluebird");
+const logger = require("../../logger");
 
 const checkDate = (
     subjectDate /* 01.09.2023 */,
@@ -22,6 +23,7 @@ const setInitialDate = (dates) => {
 
 const readMails = async (dates /* 2023-09-01T00:00:00+03:00 */) => {
     console.log("readMails");
+    logger.log("run readMails");
     let date = await setInitialDate(dates);
     const imapConfig = {
         user: process.env.MAIL_USER,
@@ -38,7 +40,8 @@ const readMails = async (dates /* 2023-09-01T00:00:00+03:00 */) => {
         imap.once("ready", () => {
             imap.openBox("INBOX", true, (err, box) => {
                 if (err) {
-                    console.log("Inbox Error", err);
+                    console.error("Inbox Error", err);
+                    logger.error("Inbox Error: " + err);
                 }
                 try {
                     imap.search(
@@ -89,7 +92,8 @@ const readMails = async (dates /* 2023-09-01T00:00:00+03:00 */) => {
                                     });*/
                                 });
                                 f.once("error", function (err) {
-                                    console.log("Fetch error: " + err);
+                                    console.error("Fetch error: " + err);
+                                    logger.error("Fetch Mails Error: " + err);
                                 });
                                 f.once("end", () => {
                                     //console.log("Done ferching all message!");
@@ -100,7 +104,8 @@ const readMails = async (dates /* 2023-09-01T00:00:00+03:00 */) => {
                         }
                     );
                 } catch (error) {
-                    console.log("Search Error", error);
+                    console.error("Search Error", error);
+                    logger.error("Search Error: " + error);
                 }
             });
         });

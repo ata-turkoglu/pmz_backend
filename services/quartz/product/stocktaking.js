@@ -1,5 +1,6 @@
 const db = require("../../../db");
 const moment = require("moment");
+const logger = require("../../../logger");
 
 const setLastDate = (result) => {
     return new Promise((resolve) => {
@@ -16,6 +17,7 @@ const setLastDate = (result) => {
 module.exports = {
     addStocktakingData: (data) => {
         console.log("addStocktakingData");
+        logger.log("run addStocktakingData");
         return db("quartz_product_stocktaking")
             .insert(data)
             .returning("id")
@@ -23,11 +25,13 @@ module.exports = {
                 return result;
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
+                logger.error("addStocktakingData: " + error);
                 return { error };
             });
     },
     addPackagingData: (data) => {
+        logger.log("run addPackagingData");
         return db("quartz_packaging_usage")
             .insert(data)
             .returning("id")
@@ -35,7 +39,8 @@ module.exports = {
                 return result;
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
+                logger.error("addPackagingData: " + error);
                 return { error };
             });
     },
@@ -48,7 +53,8 @@ module.exports = {
                 return await setLastDate(result);
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
+                logger.error("getLastDateOfProducing: " + error);
                 return { error };
             });
     },
@@ -61,7 +67,8 @@ module.exports = {
                 return await setLastDate(result);
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
+                logger.error("getLastDateOfPackaging: " + error);
                 return { error };
             });
     },

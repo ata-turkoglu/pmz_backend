@@ -1,8 +1,12 @@
 const quartzProductStocktakingServices = require("../../../services/quartz/product/stocktaking");
 const { readMails } = require("../../../services/email/readMail");
+const logger = require("../../../logger");
+
 module.exports = {
     addStocktakingData: () => {
         console.log("addStocktakingData");
+        logger.log("run quartzProductStocktakingController.addStocktakingData");
+
         new Promise(async (resolve) => {
             let lastDateOfProducing =
                 await quartzProductStocktakingServices.getLastDateOfProducing();
