@@ -22,9 +22,11 @@ const setInitialDate = (dates) => {
 };
 
 const readMails = async (dates /* 2023-09-01T00:00:00+03:00 */) => {
-    console.log("readMails");
     logger.info("run readMails");
+
+    //get necessary date
     let date = await setInitialDate(dates);
+
     const imapConfig = {
         user: process.env.MAIL_USER,
         password: process.env.MAIL_PASSWORD,
@@ -40,7 +42,6 @@ const readMails = async (dates /* 2023-09-01T00:00:00+03:00 */) => {
         imap.once("ready", () => {
             imap.openBox("INBOX", true, (err, box) => {
                 if (err) {
-                    console.error("Inbox Error", err);
                     logger.error("Inbox Error: " + err);
                 }
                 try {
@@ -92,7 +93,6 @@ const readMails = async (dates /* 2023-09-01T00:00:00+03:00 */) => {
                                     });*/
                                 });
                                 f.once("error", function (err) {
-                                    console.error("Fetch error: " + err);
                                     logger.error("Fetch Mails Error: " + err);
                                 });
                                 f.once("end", () => {
@@ -104,7 +104,6 @@ const readMails = async (dates /* 2023-09-01T00:00:00+03:00 */) => {
                         }
                     );
                 } catch (error) {
-                    console.error("Search Error", error);
                     logger.error("Search Error: " + error);
                 }
             });

@@ -85,7 +85,8 @@ const getExcelData = async (
     filename,
     dates /* 2023-09-01T00:00:00+03:00 */
 ) => {
-    console.log("getExcelData", getExcelData);
+    logger.info("run getExcelData");
+
     let producing = null;
     let packaging = null;
 

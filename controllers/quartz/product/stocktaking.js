@@ -4,18 +4,19 @@ const logger = require("../../../logger");
 
 module.exports = {
     addStocktakingData: () => {
-        console.log("addStocktakingData");
         logger.info(
             "run quartzProductStocktakingController.addStocktakingData"
         );
 
         new Promise(async (resolve) => {
+            //get last existent dates to filter non existent data mails
             let lastDateOfProducing =
                 await quartzProductStocktakingServices.getLastDateOfProducing();
 
             let lastDateOfPackaging =
                 await quartzProductStocktakingServices.getLastDateOfPackaging();
 
+            //read mails due to dates and get data from the excels
             let list = await readMails({
                 lastDateOfProducing,
                 lastDateOfPackaging,
