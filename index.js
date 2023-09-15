@@ -3,11 +3,13 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const scheduler = require("node-schedule");
 const moment = require("moment");
+const logger = require("./logger");
 
 const activityForm = require("./router/activityForm");
 const analysis = require("./router/analysis");
 const chartData = require("./router/chartData");
 const facilities = require("./router/facilities");
+const logs = require("./router/logs");
 const process = require("./router/process");
 const rawMaterials = require("./router/rawMaterials");
 const users = require("./router/users");
@@ -26,6 +28,7 @@ rule.hour = 13;
 rule.minute = 0;
 
 const job = scheduler.scheduleJob(rule, function () {
+    logger.log("schedular triggered");
     stocktakingController.addStocktakingData();
 });
 
@@ -47,7 +50,9 @@ app.use("/facilities", facilities);
 app.use("/process", process);
 app.use("/rawMaterials", rawMaterials);
 app.use("/users", users);
+app.use("/logs", logs);
 
 app.listen(port, () => {
+    logger.info("server started listening");
     console.log(`Server is listening on port ${port}`);
 });
