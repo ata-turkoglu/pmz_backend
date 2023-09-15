@@ -25,10 +25,10 @@ const port = 3000;
 // Scheduler
 const rule = new scheduler.RecurrenceRule();
 rule.hour = 11;
-rule.minute = 35;
+rule.minute = 55;
 
 const job = scheduler.scheduleJob(rule, function () {
-    logger.log("schedular triggered");
+    logger.info("schedular triggered");
     stocktakingController.addStocktakingData();
 });
 

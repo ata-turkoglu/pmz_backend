@@ -17,7 +17,7 @@ const setLastDate = (result) => {
 module.exports = {
     addStocktakingData: (data) => {
         console.log("addStocktakingData");
-        logger.log("run addStocktakingData");
+        logger.info("run addStocktakingData");
         return db("quartz_product_stocktaking")
             .insert(data)
             .returning("id")
@@ -31,7 +31,7 @@ module.exports = {
             });
     },
     addPackagingData: (data) => {
-        logger.log("run addPackagingData");
+        logger.info("run addPackagingData");
         return db("quartz_packaging_usage")
             .insert(data)
             .returning("id")
