@@ -36,10 +36,10 @@ const job = scheduler.scheduleJob(rule, function () {
 }); */
 
 let mailTask = scheduler.schedule(
-    "0 0 * * * *",
+    "0 * * * * *",
     () => {
         logger.info("schedular triggered");
-        stocktakingController.addStocktakingData();
+        //stocktakingController.addStocktakingData();
     },
     {
         scheduled: false,
@@ -73,15 +73,11 @@ app.listen(port, () => {
         logger.info("server started listening");
         mailTask.start();
     } else {
-        fs.writeFile(logFileDir, "", function (err) {
-            if (err) {
-                console.log(err);
-            }
-            logger.info("Log file was saved");
-            console.log("The file was saved!");
-            logger.info("server started listening");
-            mailTask.start();
-        });
+        fs.mkdirSync(logFileDir);
+        logger.info("Log file was saved");
+        console.log("The file was saved!");
+        logger.info("server started listening");
+        mailTask.start();
     }
     console.log(`Server is listening on port ${port}`);
     logger.info("yes");
