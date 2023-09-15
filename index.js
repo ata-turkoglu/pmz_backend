@@ -25,8 +25,8 @@ const port = 3000;
 
 // Scheduler
 const rule = new scheduler.RecurrenceRule();
-rule.hour = 12;
-rule.minute = 20;
+rule.hour = 13;
+rule.minute = 10;
 
 const job = scheduler.scheduleJob(rule, function () {
     logger.info("schedular triggered");

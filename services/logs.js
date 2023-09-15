@@ -1,9 +1,11 @@
 const fs = require("fs");
+var path = require("path");
 const logger = require("../logger");
 module.exports = {
     getLogs: () => {
         return new Promise((resolve) => {
-            let text = fs.readFileSync("./logs.log", "utf-8");
+            let logFileDir = path.join(__dirname, "..", "logs.log");
+            let text = fs.readFileSync(logFileDir, "utf-8");
             let array = text.split("\n");
             resolve(array);
         }).then((array) => {
