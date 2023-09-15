@@ -6,6 +6,7 @@ const scheduler = require("node-cron");
 const moment = require("moment");
 const logger = require("./logger");
 const fs = require("fs");
+const path = require("path");
 
 const activityForm = require("./router/activityForm");
 const analysis = require("./router/analysis");
@@ -35,7 +36,7 @@ const job = scheduler.scheduleJob(rule, function () {
 }); */
 
 let mailTask = scheduler.schedule(
-    "0 40 13 * * *",
+    "0 0 * * * *",
     () => {
         logger.info("schedular triggered");
         stocktakingController.addStocktakingData();
@@ -66,12 +67,13 @@ app.use("/users", users);
 app.use("/logs", logs);
 
 app.listen(port, () => {
-    if (fs.existsSync("./logs.log")) {
+    let logFileDir = path.join(__dirname, "logs.log");
+    if (fs.existsSync(logFileDir)) {
         logger.info("Log file is existing");
         logger.info("server started listening");
         mailTask.start();
     } else {
-        fs.writeFile("./logs.log", "", function (err) {
+        fs.writeFile(logFileDir, "", function (err) {
             if (err) {
                 console.log(err);
             }
@@ -82,4 +84,5 @@ app.listen(port, () => {
         });
     }
     console.log(`Server is listening on port ${port}`);
+    logger.info("yes");
 });

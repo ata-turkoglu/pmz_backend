@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const usersController = require("../controllers/users");
+const logger = require("../logger");
 
 router.get("/all", (req, res, next) => {
+    logger.info("getAllUser");
     return usersController
         .getAll()
         .then((result) => {
