@@ -26,7 +26,7 @@ module.exports = {
                         dryer_kiln: data.dryerKilnTimer,
                         reducer_kiln: data.reducerKilnTimer,
                         cng: data.cngTimer,
-                        products: data.productsText,
+                        produced: data.produced,
                         malfunctions: data.malfunctionsText,
                         other_activities: data.otherActivities,
                     };
