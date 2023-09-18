@@ -5,7 +5,7 @@ const logger = require("../../../logger");
 module.exports = {
     addStocktakingData: () => {
         logger.info(
-            "run quartzProductStocktakingController.addStocktakingData"
+            "run quartzProductStocktakingController addStocktakingData"
         );
 
         new Promise(async (resolve) => {

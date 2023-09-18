@@ -3,6 +3,7 @@ const XlsxPopulate = require("xlsx-populate");
 const moment = require("moment");
 const stocktakingList = JSON.parse(process.env.STOCK_HEADER_LIST);
 const packagingList = JSON.parse(process.env.PACKAGE_HEADER_LIST);
+const logger = require("../../logger");
 
 const mergeHeaders = (first, second) => {
     let list = [];
