@@ -33,7 +33,7 @@ router.put("/update", (req, res, next) => {
     return activityFormController
         .update(req.body)
         .then((result) => {
-            res.sendStatus(200).send(result);
+            res.status(200).send(result);
             return next();
         })
         .catch((exception) => {

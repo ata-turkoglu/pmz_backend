@@ -2,7 +2,11 @@ const activityFormsServices = require("../services/activityForms");
 const moment = require("moment");
 module.exports = {
     getFacilityActivityForms: (facility) => {
-        return activityFormsServices.getFacilityActivityForms(facility);
+        return activityFormsServices
+            .getFacilityActivityForms(facility)
+            .then((result) => {
+                return result;
+            });
     },
     getForm(facility, date, shift) {
         return activityFormsServices.getForm(facility, date, shift);
@@ -73,7 +77,7 @@ module.exports = {
                         dryer_kiln: data.dryerKilnTimer,
                         reducer_kiln: data.reducerKilnTimer,
                         cng: data.cngTimer,
-                        products: data.productsText,
+                        produced: data.produced,
                         malfunctions: data.malfunctionsText,
                         other_activities: data.otherActivities,
                     };
