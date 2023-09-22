@@ -1,5 +1,8 @@
 const ballChargeService = require("../../../services/quartz/rawMaterials/ballCharge");
 module.exports = {
+    getBallCharges: () => {
+        return ballChargeService.getBallCharges();
+    },
     addBallChargeData: async (data) => {
         let lastData = await ballChargeService.getLastData(data.mill);
         data.timer_diff = Math.abs(data.timer - lastData.timer);

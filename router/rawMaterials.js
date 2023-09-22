@@ -67,4 +67,17 @@ router.post("/ballCharge", (req, res, next) => {
         });
 });
 
+router.get("/getBallCharges", (req, res, next) => {
+    return ballChargeController
+        .getBallCharges()
+        .then((result) => {
+            res.status(200).send(result);
+            return next();
+        })
+        .catch((exception) => {
+            console.log(exception);
+            return next();
+        });
+});
+
 module.exports = router;
