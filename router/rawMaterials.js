@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const coalControllers = require("../controllers/rawMaterials/coal.js");
+const ballChargeController = require("../controllers/quartz/rawMaterials/ballCharge.js");
 
 router.get("/getCoalData", (req, res, next) => {
     return coalControllers
@@ -45,6 +46,19 @@ router.delete("/deleteCoalEntry", (req, res, next) => {
         .deleteCoalEntry(req.body.id)
         .then((result) => {
             res.sendStatus(200).send(result);
+            return next();
+        })
+        .catch((exception) => {
+            console.log(exception);
+            return next();
+        });
+});
+
+router.post("/ballCharge", (req, res, next) => {
+    return ballChargeController
+        .addBallChargeData(req.body)
+        .then((result) => {
+            res.status(200).send(result);
             return next();
         })
         .catch((exception) => {
