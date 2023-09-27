@@ -45,10 +45,10 @@ router.get("/get-previous-total-for-edit", (req, res, next) => {
 });
 
 router.get("/production", (req, res, next) => {
-    const { facility, startDate, endDate } = req.query;
+    const { facility, startDate, endDate, product } = req.query;
     if (facility == 5) {
         return quartzProductionController
-            .getProductionDataByDateRange(startDate, endDate)
+            .getProductionDataByDateRange(startDate, endDate, product)
             .then((result) => {
                 res.status(200).send(result);
                 return next();

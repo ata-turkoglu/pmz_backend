@@ -1,8 +1,13 @@
 const db = require("../../../db");
 module.exports = {
-    getProductionDataByDateRange: (startDate, endDate) => {
+    getProductionDataByDateRange: (startDate, endDate, product) => {
         return db("quartz_product_stocktaking")
             .select("workday")
+            .modify(function (queryBuilder) {
+                if (product != null) {
+                    queryBuilder.where("product_name", product);
+                }
+            })
             .sum("bigbag_produced as bigbag")
             .sum("diff_bigbag_produced as diffBigbag")
             .sum("pallet_produced as pallet")
