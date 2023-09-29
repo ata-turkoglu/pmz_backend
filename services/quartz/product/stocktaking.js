@@ -44,6 +44,17 @@ module.exports = {
                 return { error };
             });
     },
+    getLastStocktakingData: (lastDate) => {
+        return db("quartz_product_stocktaking")
+            .select()
+            .where("workday", lastDate)
+            .then((result) => {
+                return result;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    },
     getLastDateOfProducing: () => {
         return db("quartz_product_stocktaking")
             .select("workday")

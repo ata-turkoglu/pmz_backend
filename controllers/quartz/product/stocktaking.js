@@ -52,4 +52,11 @@ module.exports = {
                 }
             });
     },
+    getLastStocktakingData: async () => {
+        let lastDate =
+            await quartzProductStocktakingServices.getLastDateOfProducing();
+        return quartzProductStocktakingServices.getLastStocktakingData(
+            lastDate
+        );
+    },
 };
