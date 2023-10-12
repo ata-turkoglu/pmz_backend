@@ -4,7 +4,7 @@ module.exports = {
     getLastDate: (data) => {
         return db("consumables")
             .select()
-            .where("facility", data.facility)
+            .whereIn("facility", data.facility)
             .whereIn("material", data.materials)
             .orderBy("invoice_date", "desc")
             .limit(1)
