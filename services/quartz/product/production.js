@@ -12,6 +12,7 @@ module.exports = {
             .sum("diff_bigbag_produced as diffBigbag")
             .sum("pallet_produced as pallet")
             .sum("pp_produced as pp")
+            .sum("silobas_produced as silobas")
             .whereBetween("workday", [startDate, endDate])
             .groupBy("workday")
             .orderBy("workday")

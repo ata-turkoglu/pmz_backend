@@ -11,6 +11,9 @@ const checkDate = (
     lastDate /* 2023-09-01T00:00:00+03:00 */
 ) => {
     let mailDate = moment(subjectDate, "DD.MM.YYYY").format();
+    if (mailDate == "Invalid date") {
+        return false;
+    }
     return !lastDate ? true : mailDate > lastDate;
 };
 
