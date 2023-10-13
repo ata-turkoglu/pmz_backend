@@ -24,4 +24,28 @@ module.exports = {
                 return { error };
             });
     },
+    getDispatchedDataByDateRange: (startDate, endDate, product) => {
+        return db("quartz_product_stocktaking")
+            .select("workday")
+            .modify(function (queryBuilder) {
+                if (product != null) {
+                    queryBuilder.where("product_name", product);
+                }
+            })
+            .sum("bigbag_sent as bigbag")
+            .sum("diff_bigbag_sent as diffBigbag")
+            .sum("pallet_sent as pallet")
+            .sum("pp_sent as pp")
+            .sum("silobas_sent as silobas")
+            .whereBetween("workday", [startDate, endDate])
+            .groupBy("workday")
+            .orderBy("workday")
+            .then((result) => {
+                return result;
+            })
+            .catch((error) => {
+                console.log(error);
+                return { error };
+            });
+    },
 };

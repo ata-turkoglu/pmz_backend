@@ -8,4 +8,11 @@ module.exports = {
             product
         );
     },
+    getDispatchedDataByDateRange: (startDate, endDate, product) => {
+        return quartzProductionService.getDispatchedDataByDateRange(
+            startDate,
+            endDate,
+            product
+        );
+    },
 };

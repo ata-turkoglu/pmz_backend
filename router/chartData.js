@@ -59,5 +59,20 @@ router.get("/production", (req, res, next) => {
             });
     }
 });
+router.get("/dispatched", (req, res, next) => {
+    const { facility, startDate, endDate, product } = req.query;
+    if (facility == 5) {
+        return quartzProductionController
+            .getDispatchedDataByDateRange(startDate, endDate, product)
+            .then((result) => {
+                res.status(200).send(result);
+                return next();
+            })
+            .catch((exception) => {
+                console.log(exception);
+                return next();
+            });
+    }
+});
 
 module.exports = router;
