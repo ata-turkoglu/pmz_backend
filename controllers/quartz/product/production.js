@@ -15,4 +15,10 @@ module.exports = {
             product
         );
     },
+    getBallConsumptionByDateRange: (startDate, endDate) => {
+        return quartzProductionService.getBallConsumptionByDateRange(
+            startDate,
+            endDate
+        );
+    },
 };
