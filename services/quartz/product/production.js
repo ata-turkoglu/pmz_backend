@@ -57,6 +57,7 @@ module.exports = {
         let ballCharges = [];
         let millsWorkingHours = [];
         let producedByMills = [];
+        let purchasedBallMills = [];
         return new Promise(async (resolve) => {
             startBallChargeDateMill1 = await db("quartz_ball_charge")
                 .select("workday")
@@ -211,8 +212,52 @@ module.exports = {
                     .andWhere("workday", "<=", endDate)
                     .then((res) => res);
             })
+            .then(async () => {
+                purchasedBallMills = await db("consumables")
+                    .select(
+                        "invoice_date",
+                        "amount",
+                        "unit",
+                        "unit_price",
+                        "total_price",
+                        "foreign_unit_price",
+                        "currency_unit",
+                        "exchange_rate"
+                    )
+                    .where("invoice_date", ">=", startDate)
+                    .andWhere({ facility: 5 })
+                    .andWhere({ material: "Alümina Bilya" })
+                    .orderBy("invoice_date", "desc")
+                    .then(async (res) => {
+                        let last = await db("consumables")
+                            .select(
+                                "invoice_date",
+                                "amount",
+                                "unit",
+                                "unit_price",
+                                "total_price",
+                                "foreign_unit_price",
+                                "currency_unit",
+                                "exchange_rate"
+                            )
+                            .where("invoice_date", "<", startDate)
+                            .andWhere({ facility: 5 })
+                            .andWhere({ material: "Alümina Bilya" })
+                            .orderBy("invoice_date", "desc")
+                            .limit(1)
+                            .then((res) => res);
+
+                        res.push(last[0]);
+                        return res;
+                    });
+            })
             .then(() => {
-                return { ballCharges, millsWorkingHours, producedByMills };
+                return {
+                    ballCharges,
+                    millsWorkingHours,
+                    producedByMills,
+                    purchasedBallMills,
+                };
             });
     },
 };
