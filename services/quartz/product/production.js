@@ -201,6 +201,7 @@ module.exports = {
                         "pp_produced"
                     )
                     .whereIn("product_name", [
+                        "TURBO FİLTRE",
                         "45 M",
                         "63 M",
                         "75 M",
