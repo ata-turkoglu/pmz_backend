@@ -5,6 +5,7 @@ const moment = require("moment");
 
 const activityForm = require("./router/activityForm");
 const analysis = require("./router/analysis");
+const bills = require("./router/bills");
 const chartData = require("./router/chartData");
 const facilities = require("./router/facilities");
 const logs = require("./router/logs");
@@ -24,7 +25,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
     cors({
-        //origin: "*",
         origin: "https://pmzsart.web.app",
         credentials: true,
         allowHeaders: ["Content-Type"],
@@ -33,6 +33,7 @@ app.use(
 
 app.use("/activity-forms", activityForm);
 app.use("/analysis", analysis);
+app.use("/bills", bills);
 app.use("/chart-data", chartData);
 app.use("/facilities", facilities);
 app.use("/process", process);
