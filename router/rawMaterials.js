@@ -94,6 +94,20 @@ router.post("/addConsumable", (req, res, next) => {
         });
 });
 
+router.get("/purchasedConsumablesByYear", (req, res, next) => {
+    const year = req.query.year;
+    return consumablesController
+        .getPurchasedConsumablesByYear(year)
+        .then((result) => {
+            res.status(200).send(result);
+            return next();
+        })
+        .catch((exception) => {
+            console.log(exception);
+            return next();
+        });
+});
+
 router.post("/getLastPackaging", (req, res, next) => {
     return consumablesController
         .getLastDate(req.body)

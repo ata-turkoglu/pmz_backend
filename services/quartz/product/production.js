@@ -57,7 +57,7 @@ module.exports = {
         let ballCharges = [];
         let millsWorkingHours = [];
         let producedByMills = [];
-        let purchasedBallMills = [];
+        let purchasedMillBalls = [];
         return new Promise(async (resolve) => {
             startBallChargeDateMill1 = await db("quartz_ball_charge")
                 .select("workday")
@@ -214,7 +214,7 @@ module.exports = {
                     .then((res) => res);
             })
             .then(async () => {
-                purchasedBallMills = await db("consumables")
+                purchasedMillBalls = await db("consumables")
                     .select(
                         "invoice_date",
                         "amount",
@@ -257,7 +257,7 @@ module.exports = {
                     ballCharges,
                     millsWorkingHours,
                     producedByMills,
-                    purchasedBallMills,
+                    purchasedMillBalls,
                 };
             });
     },
